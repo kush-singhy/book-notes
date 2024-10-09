@@ -18,7 +18,12 @@ db.connect();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
+    const result = await db.query(
+        "SELECT * FROM books"
+    );
+    const books = result.rows;
+    console.log(books);
     res.render("index.ejs");
 });
 
