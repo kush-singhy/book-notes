@@ -20,11 +20,14 @@ app.use(express.static("public"));
 
 app.get("/", async (req, res) => {
     const result = await db.query(
-        "SELECT * FROM books"
+        `SELECT books.title, notes.read_date, notes.rating, notes.status
+        FROM books JOIN notes 
+        ON books.id = notes.book_id`
     );
     const books = result.rows;
-    console.log(books);
-    res.render("index.ejs");
+    const date = new Date(books[0].read_date);
+    console.log(date.getDate());
+    res.render("index.ejs", { books: books });
 });
 
 app.listen(port, () => {
