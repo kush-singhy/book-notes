@@ -53,3 +53,13 @@ body {
 .add-book {
     text-align: center;
 }
+
+@media (max-width: 1200px) {
+    .container {
+        width: 100%; 
+    }
+
+    .book-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
