@@ -8,54 +8,45 @@
     <link rel="stylesheet" href="styles/main.css" />
 </head>
 
+
 <body>
     
     <div class="header">
         <div class="header-content">
-            <a href="#">Link 1</a>
-            <div class="title">Read Write</div>
-            <a href="#">Link 2</a>
+            <a href="#">notes</a>
+            <div class="title">read write</div>
+            <a href="#">wishlist</a>
         </div>
     </div>
     <div class="container">
+        <div class="add-book">
+            <a href="/add" class="btn btn-success">add book</a>
+        </div>
 
-        <% for (let book of books) { %>
-        <div class="card mb-3">
-            <div class="row g-0">
-              <div class="col-md-4">
-                <img src="..." class="img-fluid rounded-start" alt="...">
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h5 class="card-title"><%= book.title %></h5>
-                  <p class="card-text">Date Read: <%= book.read_date %></p>
-                  <p class="card-text">Rating: <%= book.rating %></p>
-                  <p class="card-text">Status: <%= book.status %></p>
+        <div class="book-grid">
+
+            <% for (let book of books) { %>
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="<%= book.isbn %>" class="img-fluid rounded-start" alt="Book Cover">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= book.title %></h5>
+                                <p class="card-text">Date Read: <%= formatPostgresDate(book.read_date) %></p>
+                                <p class="card-text">Rating: <%= book.rating %></p>
+                                <p class="card-text">Status: <%= book.status %></p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        <% } %>
-
+            <% } %>
+                
+        </div>
           
     </div>
 
-    <script>
-        function formatPostgresDate(pgDate) {
-            const date = new Date(pgDate);
-
-            const monthNames = [
-                "JAN", "FEB", "MAR", "APR", "MAY", "JUN",
-                "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
-            ];
-
-            const day = date.getDate();
-            const month = monthNames[date.getMonth()];
-            const year = date.getFullYear();
-
-            return `${day} ${month} ${year}`;
-        }
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
