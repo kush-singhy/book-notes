@@ -1,6 +1,7 @@
 body {
     margin: 0;
     padding: 0;
+    font-family: 'Josefin Sans', sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -12,15 +13,27 @@ body {
     color: white;
     display: flex;
     justify-content: center;
-    padding: 10px 20px;
+    padding: 20px 20px;
 }
 
 .header-content {
-    width: 100%;
-    max-width: 600px;
+    width: 1200px;
     display: flex;
-    justify-content: space-around;
+    justify-content:space-between;
     align-items: center;
+}
+.logo {
+    width: 50px;
+}
+.logo-box {
+    width: 200px;
+}
+.nav-links {
+    width: 200px;
+    text-align: end;
+}
+.nav-links a {
+    margin-left: 30px;
 }
 
 .header a {
@@ -39,6 +52,7 @@ body {
 .container {
     width: 1200px;
     margin-top: 30px;
+    padding: 0;
     display: flex;
     flex-direction: column;
 }
@@ -60,6 +74,7 @@ body {
 
 .book-card-body {
     padding: 10px 20px;
+    height: 172px;
 }
 
 .book-card-body p {
@@ -76,7 +91,7 @@ body {
 }
 
 .add-book {
-    text-align: center;
+    /* text-align: center; */
 }
 
 .cover-img {
@@ -84,6 +99,18 @@ body {
     height: 100%;
     object-fit: cover;
     border-radius: 6px;
+}
+
+.add-form-label {
+    width: 80px;
+}
+
+#add-notes {
+    display: none;
+}
+
+.read-switch {
+    margin-bottom: 18px;
 }
 
 @media (max-width: 1200px) {

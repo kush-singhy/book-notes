@@ -88,8 +88,25 @@ app.get("/", async (req, res) => {
     }
 });
 
+app.get("/wishlist", async (req, res) => {
+    try {
+        const result = await db.query(
+            `SELECT books.title, books.author, books.isbn
+            FROM books
+            LEFT JOIN notes ON books.id = notes.book_id
+            WHERE notes.book_id IS NULL;`
+        );
+        const books = result.rows;
+
+        res.render("index.ejs", { books, formatPostgresDate });
+        
+    } catch (error) {
+        console.error('Error fetching books:', error);
+        res.status(500).send('Error fetching books');
+    }
+})
+
 app.get("/addbook", (req, res) => {
-    console.log(req.body);
     res.render("addbook.ejs");
 });
 
@@ -109,19 +126,39 @@ app.post("/search", async (req, res) => {
 
 app.post("/add", async (req, res) => {
     const { title, author, isbn, date, rating, notes } = req.body;
-    console.log(req.body);
-    const bookId = await db.query(
-        `INSERT INTO books (title, author, isbn)
-        VALUES ($1, $2, $3)
-        RETURNING id`,
-        [title, author, isbn]
-    )
+    const status = req.body['read-status'];
+    console.log(status);
 
-    // await db.query(
-    //     `INSERT INTO notes
-    //     VALUES ($1, )`
-    // )
-    res.redirect("/");
+    try {
+        const response = await db.query(
+            `INSERT INTO books (title, author, isbn)
+            VALUES ($1, $2, $3)
+            RETURNING id`,
+            [title, author, isbn]
+        )
+        const bookId = response.rows[0].id;
+        
+        if (status === 'yes') {
+            try {
+                await db.query(
+                    `INSERT INTO notes
+                    VALUES ($1, $2, $3, $4, $5)`,
+                    [bookId, true, date, rating, notes]
+                )
+
+                res.redirect("/");
+
+            } catch (error) {
+                console.error(error.message);
+                res.redirect("/addbook");
+            }
+        } else {
+            res.redirect("/");
+        }
+    } catch (error) {
+        console.error(error.message);
+        res.redirect("/addbook");
+    }
 })
 
 app.listen(port, () => {
