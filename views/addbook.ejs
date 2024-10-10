@@ -21,10 +21,40 @@
     <div class="container">
         <h4>Search for book: </h4>
         <form action="/search" method="post">
-            <div class="input-group">
+            <div class="input-group mb-3">
                 <input type="text" name="book_name" class="form-control" placeholder="Book name...">
                 <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
             </div>
+        </form>
+
+        <h4>Or enter details here: </h4>
+        <form action="/add" method="post">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Title</span>
+                <input type="text" name="title" class="form-control" placeholder="Title...">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Author</span>
+                <input type="text" name="author" class="form-control" placeholder="Author...">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">ISBN</span>
+                <input type="text" name="isbn" class="form-control" placeholder="ISBN...">
+            </div>
+            <h5>Add your thoughts: </h4>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Date</span>
+                <input type="date" name="date" class="form-control" placeholder="Date...">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Rating</span>
+                <input type="text" name="rating" class="form-control" placeholder="Rating...">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Notes</span>
+                <textarea name="notes" class="form-control" placeholder="Notes..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Add</button>
         </form>
           
     </div>

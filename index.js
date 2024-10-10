@@ -88,14 +88,15 @@ app.get("/", async (req, res) => {
     }
 });
 
-app.get("/add", (req, res) => {
+app.get("/addbook", (req, res) => {
+    console.log(req.body);
     res.render("addbook.ejs");
 });
 
 app.post("/search", async (req, res) => {
     const input = req.body.book_name;
     console.log('User Input: ' + input);
-    const searchURL = "https://openlibrary.org/search/inside.json?q=" + input
+    const searchURL = "https://openlibrary.org/search.json?q=" + input
     try {
         const response = await axios.get(searchURL, { httpAgent: agent });
         console.log('Response: ' + response.data);
@@ -104,6 +105,23 @@ app.post("/search", async (req, res) => {
         console.error(error.message);
         res.redirect("/add");
     }
+})
+
+app.post("/add", async (req, res) => {
+    const { title, author, isbn, date, rating, notes } = req.body;
+    console.log(req.body);
+    const bookId = await db.query(
+        `INSERT INTO books (title, author, isbn)
+        VALUES ($1, $2, $3)
+        RETURNING id`,
+        [title, author, isbn]
+    )
+
+    // await db.query(
+    //     `INSERT INTO notes
+    //     VALUES ($1, )`
+    // )
+    res.redirect("/");
 })
 
 app.listen(port, () => {
