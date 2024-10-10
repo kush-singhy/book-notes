@@ -50,8 +50,40 @@ body {
     margin-top: 30px;
 }
 
+.book-card {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 7px;
+}
+
+.book-card-body {
+    padding: 10px 20px;
+}
+
+.book-card-body p {
+    margin-top: 12px;
+    line-height: 1;
+}
+
+.book-card-title {
+    height: 30px;
+    overflow: hidden;
+    white-space: nowrap; 
+    /* This is where the card sizing issues occurs on small screens */
+    text-overflow: ellipsis;
+}
+
 .add-book {
     text-align: center;
+}
+
+.cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
 }
 
 @media (max-width: 1200px) {

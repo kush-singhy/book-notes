@@ -26,17 +26,19 @@
         <div class="book-grid">
 
             <% for (let book of books) { %>
-                <div class="card mb-3">
+                <div class="book-card">
                     <div class="row g-0">
                         <div class="col-md-4">
-                            <img src="<%= book.isbn %>" class="img-fluid rounded-start" alt="Book Cover">
+                            <img src="./assets/gradient.jpg" class="cover-img" alt="Book Cover">
                         </div>
                         <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title"><%= book.title %></h5>
-                                <p class="card-text">Date Read: <%= formatPostgresDate(book.read_date) %></p>
-                                <p class="card-text">Rating: <%= book.rating %></p>
-                                <p class="card-text">Status: <%= book.status %></p>
+                            <div class="book-card-body">
+                                <h5 class="book-card-title"><%= book.title %></h5>
+                                <% if (book.status) { %>
+                                    <span class="badge rounded-pill bg-success">Read</span>
+                                <% } %>
+                                <p class="book-card-text"><%= formatPostgresDate(book.read_date) %></p>
+                                <p class="book-card-text"><%= book.rating %>/10</p>
                             </div>
                         </div>
                     </div>
