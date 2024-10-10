@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Josefin Sans', sans-serif;
+    font-family: 'Afacad Flux', sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,9 +11,10 @@ body {
     width: 100%;
     background-color: #444;
     color: white;
+    font-family: 'Josefin Sans', sans-serif;
     display: flex;
     justify-content: center;
-    padding: 20px 20px;
+    padding: 20px;
 }
 
 .header-content {
@@ -57,6 +58,10 @@ body {
     flex-direction: column;
 }
 
+.add-book-form {
+    width: 800px;
+}
+
 .book-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -74,24 +79,26 @@ body {
 
 .book-card-body {
     padding: 10px 20px;
-    height: 172px;
+    height: 180px;
 }
 
-.book-card-body p {
+.book-card-text {
     margin-top: 12px;
     line-height: 1;
 }
 
 .book-card-title {
     height: 30px;
+    margin: 0;
     overflow: hidden;
     white-space: nowrap; 
     /* This is where the card sizing issues occurs on small screens */
     text-overflow: ellipsis;
 }
 
-.add-book {
-    /* text-align: center; */
+.book-card-subtitle {
+    margin: 0 0 12px 0;
+    color: #777;
 }
 
 .cover-img {
@@ -99,6 +106,16 @@ body {
     height: 100%;
     object-fit: cover;
     border-radius: 6px;
+}
+
+.read-badge {
+    border: 1px solid #198754;
+    color: #198754;
+}
+
+.to-read-badge {
+    border: 1px solid #999;
+    color: #999;
 }
 
 .add-form-label {

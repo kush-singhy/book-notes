@@ -62,10 +62,10 @@ app.get("/", async (req, res) => {
         );
         const books = result.rows;
         
-        books.forEach((book) => {
-            const bookISBN = book.isbn;
-            book.isbn = `https://covers.openlibrary.org/b/isbn/${bookISBN}-M.jpg`
-        })
+        // books.forEach((book) => {
+        //     const bookISBN = book.isbn;
+        //     book.isbn = `https://covers.openlibrary.org/b/isbn/${bookISBN}-M.jpg`
+        // })
 
         // const cover = await getBookCover('9781451648539');
         // console.log('Cover: ' + cover);
@@ -75,7 +75,7 @@ app.get("/", async (req, res) => {
         //     const response = await axios.get("https://covers.openlibrary.org/b/isbn/9781451648539-M.jpg", { httpsAgent: agent });
         //     const image = response.data;
         //     console.log("Image: " + image);
-        //     res.render("index.ejs", { books, image, formatPostgresDate });
+        //     res.render("index.ejs", { books, formatPostgresDate });
         // } catch(error) {
         //     console.error('Error fetching book cover:', error.message);
         // }
@@ -115,9 +115,10 @@ app.post("/search", async (req, res) => {
     console.log('User Input: ' + input);
     const searchURL = "https://openlibrary.org/search.json?q=" + input
     try {
-        const response = await axios.get(searchURL, { httpAgent: agent });
+        console.log('here');
+        const response = await axios.get(searchURL);
         console.log('Response: ' + response.data);
-        res.redirect("/add");
+        res.sendStatus(200);
     } catch(error) {
         console.error(error.message);
         res.redirect("/add");

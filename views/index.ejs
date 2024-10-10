@@ -16,17 +16,18 @@
                         <div class="col-md-8">
                             <div class="book-card-body">
                                 <h5 class="book-card-title"><%= book.title %></h5>
+                                <p class="book-card-subtitle"><%= book.author %></p>
                                 <% if (book.status) { %>
-                                    <span class="badge rounded-pill text-bg-success">Read</span>
+                                    <span class="badge rounded-pill read-badge">Read</span>
                                 <% } else { %>
-                                    <span class="badge rounded-pill text-bg-secondary">To Read</span>
+                                    <span class="badge rounded-pill to-read-badge">To Read</span>
                                 <% } %>
 
                                 <% if (book.read_date) { %>
-                                    <p class="book-card-text"><%= formatPostgresDate(book.read_date) %></p>
+                                    <p class="book-card-text">Date Read: <%= formatPostgresDate(book.read_date) %></p>
                                 <% } %>
                                 <% if (book.rating) { %>
-                                    <p class="book-card-text"><%= book.rating %>/10</p>
+                                    <p class="book-card-text"><%= book.rating %>/5</p>
                                 <% } %>
                             </div>
                         </div>
