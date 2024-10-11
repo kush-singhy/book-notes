@@ -59,7 +59,7 @@ body {
     flex-direction: column;
 }
 
-.add-book-form {
+.small-container {
     width: 800px;
 }
 
@@ -76,6 +76,22 @@ body {
     border-radius: 6px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     padding: 7px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 6px 15px;
+}
+
+.book-card:active {
+    transform: translateY(0px) scale(0.98);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 8px;
 }
 
 .book-card-body {

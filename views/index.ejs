@@ -8,6 +8,7 @@
         <div class="book-grid">
 
             <% for (let book of books) { %>
+                <a href="/view-notes/<%= book.id %>" class="book-card-link">
                 <div class="book-card">
                     <div class="row g-0">
                         <div class="col-md-4">
@@ -33,6 +34,7 @@
                         </div>
                     </div>
                 </div>
+                </a>
             <% } %>
                 
         </div>

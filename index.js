@@ -56,7 +56,7 @@ function formatPostgresDate(pgDate) {
 app.get("/", async (req, res) => {
     try {
         const result = await db.query(
-            `SELECT books.title, books.author, books.isbn, notes.read_date, notes.rating, notes.status
+            `SELECT books.id, books.title, books.author, books.isbn, notes.read_date, notes.rating, notes.status
             FROM books JOIN notes 
             ON books.id = notes.book_id`
         );
@@ -91,7 +91,7 @@ app.get("/", async (req, res) => {
 app.get("/wishlist", async (req, res) => {
     try {
         const result = await db.query(
-            `SELECT books.title, books.author, books.isbn
+            `SELECT *
             FROM books
             LEFT JOIN notes ON books.id = notes.book_id
             WHERE notes.book_id IS NULL;`
@@ -109,6 +109,61 @@ app.get("/wishlist", async (req, res) => {
 app.get("/addbook", (req, res) => {
     res.render("addbook.ejs");
 });
+
+app.get("/view-notes/:id", async (req, res) => {
+    const bookId = parseInt(req.params.id);
+    let status = false;
+    try {
+        const result = await db.query(
+            `SELECT notes.status
+            FROM books
+            JOIN notes
+            ON books.id = notes.book_id
+            WHERE id = $1`,
+            [bookId]
+        );
+        status = (result.rows.length > 0) ? true : false;
+        console.log(status);
+    } catch (error) {
+        console.error('Error: ', error.message);
+    }
+
+    if (status) {
+        try {
+            const result = await db.query(
+                `SELECT *
+                FROM books JOIN notes
+                ON books.id = notes.book_id
+                WHERE books.id = $1`,
+                [bookId]
+            )
+            const book = result.rows[0];
+            res.render("booknotes.ejs", { book, formatPostgresDate });
+        } catch (error) {
+            console.error("Error: ", error.message);
+            res.redirect("/");
+        }
+    } else {
+        try {
+            const result = await db.query(
+                `SELECT *
+                FROM books
+                LEFT JOIN notes ON books.id = notes.book_id
+                WHERE notes.book_id IS NULL
+				AND books.id = $1`,
+                [bookId]
+            );
+            const book = result.rows[0];
+            res.render("booknotes.ejs", { book, formatPostgresDate });
+
+        } catch (error) {
+            console.error("Error: ", error.message);
+            res.redirect("/");
+        }
+    }
+
+});
+
 
 app.post("/search", async (req, res) => {
     const input = req.body.book_name;
@@ -161,6 +216,7 @@ app.post("/add", async (req, res) => {
         res.redirect("/addbook");
     }
 })
+
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);
