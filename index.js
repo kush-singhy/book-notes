@@ -181,9 +181,9 @@ app.post("/search", async (req, res) => {
 })
 
 app.post("/add", async (req, res) => {
+    console.log(req.body);
     const { title, author, isbn, date, rating, notes } = req.body;
     const status = req.body['read-status'];
-    console.log(status);
 
     try {
         const response = await db.query(
