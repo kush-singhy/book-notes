@@ -18,7 +18,7 @@
         <!-- <p>ISBN: <%= book.isbn %></p> -->
         
         <% if (book.read_date) { %>
-            <p class="book-card-text">Date Read: <%= formatPostgresDate(book.read_date) %></p>
+            <p class="book-card-text">Read: <%= formatPostgresDate(book.read_date) %></p>
         <% } %>
         <% if (book.rating) { %>
             <p class="book-card-text">Rating: <%= book.rating %>/5</p>

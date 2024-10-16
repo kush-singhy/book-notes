@@ -79,7 +79,8 @@ body {
 }
 
 .container {
-    width: 1200px;
+    width: 90%;
+    max-width: 1200px;
     margin: 40px 0;
     padding: 0;
     display: flex;
@@ -112,6 +113,11 @@ body {
     gap: 40px;
 }
 
+.sort-select {
+    width: 300px;
+    margin-bottom: 30px;
+}
+
 .book-card {
     width: 100%;
     height: auto;
@@ -138,6 +144,7 @@ body {
 }
 
 .book-card-body {
+    width: 200px;
     padding: 10px 20px;
     height: 180px;
 }
@@ -261,7 +268,7 @@ body {
 
 @media (max-width: 1200px) {
     .container {
-        width: 100%; 
+        width: 90%;
     }
 
     .book-grid {
@@ -269,7 +276,17 @@ body {
     }
 }
 
-@media (max-width: 780px) {
+@media (max-width: 767px) {
+    .container {
+        width: 90%;
+        align-items: center;
+    }
+
+    .book-grid {
+        max-width: 400px;
+        grid-template-columns: 1fr;
+    }
+
     .header .title {
         display: none;
     }

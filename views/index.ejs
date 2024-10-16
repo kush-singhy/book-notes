@@ -1,35 +1,45 @@
     <%- include('partials/header.ejs') %>
 
     <div class="container">
+        <% if (locals.sort) { %>
+        <div class="input-group sort-select">
+            <label class="input-group-text" for="sort-select">Sort by:</label>
+            <select class="form-select" id="sort-select">
+                <option value="date" <%= sort === 'date' ? 'selected' : '' %>>Date Read</option>
+                <option value="rating" <%= sort === 'rating' ? 'selected' : '' %>>Rating</option>
+                <option value="title" <%= sort === 'title' ? 'selected' : '' %>>Title</option>
+            </select>
+        </div>
+        <% } %>
 
         <div class="book-grid">
 
             <% for (let book of books) { %>
                 <a href="/view-notes/<%= book.id %>" class="book-card-link">
                 <div class="book-card">
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                            <img src="./assets/gradient.jpg" class="cover-img" alt="Book Cover">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="book-card-body">
-                                <h5 class="book-card-title"><%= book.title %></h5>
-                                <p class="book-card-subtitle"><%= book.author %></p>
-                                <% if (book.status) { %>
-                                    <span class="badge rounded-pill read-badge">Read</span>
-                                <% } else { %>
-                                    <span class="badge rounded-pill to-read-badge">To Read</span>
-                                <% } %>
-
-                                <% if (book.read_date) { %>
-                                    <p class="book-card-text">Date Read: <%= formatPostgresDate(book.read_date) %></p>
-                                <% } %>
-                                <% if (book.rating) { %>
-                                    <p class="book-card-text"><%= book.rating %>/5</p>
-                                <% } %>
-                            </div>
-                        </div>
+                <div class="row g-0">
+                    <div class="col-4 col-md-4">
+                        <img src="./assets/gradient.jpg" class="cover-img" alt="Book Cover">
                     </div>
+                    <div class="col-8 col-md-8">
+                    <div class="book-card-body">
+                        <h5 class="book-card-title"><%= book.title %></h5>
+                        <p class="book-card-subtitle"><%= book.author %></p>
+                        <% if (book.status) { %>
+                            <span class="badge rounded-pill read-badge">Read</span>
+                        <% } else { %>
+                            <span class="badge rounded-pill to-read-badge">To Read</span>
+                        <% } %>
+                        
+                        <% if (book.read_date) { %>
+                            <p class="book-card-text">Read: <%= formatPostgresDate(book.read_date) %></p>
+                        <% } %>
+                        <% if (book.rating) { %>
+                            <p class="book-card-text"><%= book.rating %>/5</p>
+                        <% } %>
+                    </div>
+                    </div>
+                </div>
                 </div>
                 </a>
             <% } %>
@@ -37,5 +47,23 @@
         </div>
           
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sortSelect = document.getElementById('sort-select');
+            sortSelect.addEventListener('change', () => {
+                const sortBy = sortSelect.value;
+
+                if (sortBy === 'date') {
+                    location.href = "/latest";
+                } else if (sortBy === 'rating') {
+                    location.href = "/highest-rating";
+                } else if (sortBy === 'title') {
+                    location.href = "/title";
+                }
+            });
+        });
+
+    </script>
 
     <%- include('partials/footer.ejs') %>

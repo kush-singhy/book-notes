@@ -39,48 +39,60 @@ function formatPostgresDate(pgDate) {
     return `${day} ${month} ${year}`;
 } 
 
-// async function getBookCover(isbn) {
-//     console.log(isbn);
-//     const url = `https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg`;
+app.get("/", (req, res) => {
+    res.redirect("/latest")
+});
 
-//     try {
-//         const response = await axios.get(url, { httpsAgent: agent });
-//         const image = response.data;
-//         console.log("Image: " + image);
-//         return image;
-//     } catch(error) {
-//         console.error('Error fetching book cover:', error.message);
-//         return null;
-//     }
-// }
-
-app.get("/", async (req, res) => {
+app.get("/latest", async (req, res) => {
     try {
         const result = await db.query(
             `SELECT *
             FROM book_notes
-            WHERE status = true`
+            WHERE status = true
+            ORDER BY read_date DESC`
         );
         const books = result.rows;
-        // books.forEach((book) => {
-        //     const bookISBN = book.isbn;
-        //     book.isbn = `https://covers.openlibrary.org/b/isbn/${bookISBN}-M.jpg`
-        // })
+        const sort = 'date';
 
-        // const cover = await getBookCover('9781451648539');
-        // console.log('Cover: ' + cover);
-        // const url = `https://covers.openlibrary.org/b/isbn/9781451648539-M.jpg`;
+        res.render("index.ejs", { books, sort, formatPostgresDate });
+        
+    } catch (error) {
+        console.error('Error fetching books:', error);
+        res.status(500).send('Error fetching books');
+    }
+});
 
-        // try {
-        //     const response = await axios.get("https://covers.openlibrary.org/b/isbn/9781451648539-M.jpg", { httpsAgent: agent });
-        //     const image = response.data;
-        //     console.log("Image: " + image);
-        //     res.render("index.ejs", { books, formatPostgresDate });
-        // } catch(error) {
-        //     console.error('Error fetching book cover:', error.message);
-        // }
+app.get("/highest-rating", async (req, res) => {
+    try {
+        const result = await db.query(
+            `SELECT *
+            FROM book_notes
+            WHERE status = true
+            ORDER BY rating DESC`
+        );
+        const books = result.rows;
+        const sort = 'rating';
 
-        res.render("index.ejs", { books, formatPostgresDate });
+        res.render("index.ejs", { books, sort, formatPostgresDate });
+        
+    } catch (error) {
+        console.error('Error fetching books:', error);
+        res.status(500).send('Error fetching books');
+    }
+});
+
+app.get("/title", async (req, res) => {
+    try {
+        const result = await db.query(
+            `SELECT *
+            FROM book_notes
+            WHERE status = true
+            ORDER BY title`
+        );
+        const books = result.rows;
+        const sort = 'title';
+
+        res.render("index.ejs", { books, sort, formatPostgresDate });
         
     } catch (error) {
         console.error('Error fetching books:', error);
