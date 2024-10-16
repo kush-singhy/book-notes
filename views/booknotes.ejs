@@ -1,24 +1,41 @@
 <%- include('partials/header.ejs') %>
 
-<div class="container small-container">
-    <h1><%= book.title %></h1>
-    <h5>By <%= book.author %></h5>
-    <p>ISBN: <%= book.isbn %></p>
-    <% if (book.status) { %>
-        <span class="badge rounded-pill read-badge">Read</span>
-    <% } else { %>
-        <span class="badge rounded-pill to-read-badge">To Read</span>
-    <% } %>
+<div class="container">
+    <div class="notes-header">
+        <img src="../assets/gradient.jpg" class="notes-img" alt="Book Cover">
+        <span>
+            <h1><%= book.title %></h1>
+            <h5>By <%= book.author %></h5>
+            <% if (book.status) { %>
+                <span class="badge rounded-pill read-badge">Read</span>
+            <% } else { %>
+                <span class="badge rounded-pill to-read-badge">To Read</span>
+            <% } %>
+        </span>
+    </div>
+    
+    <div class="notes-info">
+        <!-- <p>ISBN: <%= book.isbn %></p> -->
+        
+        <% if (book.read_date) { %>
+            <p class="book-card-text">Date Read: <%= formatPostgresDate(book.read_date) %></p>
+        <% } %>
+        <% if (book.rating) { %>
+            <p class="book-card-text">Rating: <%= book.rating %>/5</p>
+        <% } %>
+    </div>
 
-    <% if (book.read_date) { %>
-        <p class="book-card-text">Date Read: <%= formatPostgresDate(book.read_date) %></p>
-    <% } %>
-    <% if (book.rating) { %>
-        <p class="book-card-text"><%= book.rating %>/5</p>
-    <% } %>
-    <% if (book.notes) { %>
-        <p class="book-card-text"><%= book.notes %></p>
-    <% } %>
+    <div class="notes-body">
+        <% if (book.notes) { %>
+            <h3>My Notes</h1>
+            <p class="book-card-text"><%= book.notes %></p>
+        <% } %>
+    </div>
+    
+    <div class="notes-buttons">
+        <a href="/edit/<%= book.id %>" class="btn add-book-btn">Edit</a>
+        <a href="/delete" class="btn add-book-btn">Delete</a>
+    </div>
 </div>
 
 <%- include('partials/footer.ejs') %>

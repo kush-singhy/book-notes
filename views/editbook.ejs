@@ -1,0 +1,84 @@
+    <%- include('partials/header.ejs') %>
+
+    <div class="container small-container">
+        <h2>Edit Book</h2>
+    
+        <form action="/edit/<%= book.id %>" method="post">
+            <div class="input-group mb-3">
+                <span class="add-form-label add-form-label input-group-text" id="basic-addon1">Title</span>
+                <input type="text" name="title" class="form-control" placeholder="Title..." value="<%= book.title %>" required>
+            </div>
+            <div class="input-group mb-3">
+                <span class="add-form-label input-group-text" id="basic-addon1">Author</span>
+                <input type="text" name="author" class="form-control" placeholder="Author..." value="<%= book.author %>" required>
+            </div>
+            <div class="input-group mb-3">
+                <span class="add-form-label input-group-text" id="basic-addon1">ISBN</span>
+                <input type="text" name="isbn" class="form-control" placeholder="ISBN..." value="<%= book.isbn %>" required>
+            </div>
+            <div class="read-switch">
+                <input type="radio" class="btn-check" name="read-status" id="have-read" value="yes" autocomplete="off" onclick="toggleNotes()" <%= book.status === true ? 'checked' : '' %>>
+                <label class="btn" for="have-read">Have Read</label>
+                
+                <input type="radio" class="btn-check" name="read-status" id="have-not-read" value="no" autocomplete="off" onclick="toggleNotes()" <%= book.status === false ? 'checked' : '' %>>
+                <label class="btn" for="have-not-read">Want to Read</label>
+            </div>
+                
+            <div id="add-notes">
+                <h5>Add your thoughts: </h4>
+                <div class="input-group mb-3">
+                    <span class="add-form-label input-group-text" id="basic-addon1">Date</span>
+                    <% if (book.read_date) { %>
+                        <input type="date" name="date" class="form-control" placeholder="Date..." value="<%= book.read_date.toISOString().split('T')[0] %>">
+                    <% } else { %>
+                        <input type="date" name="date" class="form-control" placeholder="Date...">
+                    <% } %>
+                </div>
+                <div class="input-group mb-3">
+                    <label class="add-form-label input-group-text" for="inputGroupSelect01">Rating</label>
+                    <% if (book.rating) { %>
+                        <select class="form-select" id="inputGroupSelect01" name="rating">
+                          <option>Choose...</option>
+                          <option <%= book.rating === 1 ? 'selected' : '' %> value="1">1</option>
+                          <option <%= book.rating === 2 ? 'selected' : '' %> value="2">2</option>
+                          <option <%= book.rating === 3 ? 'selected' : '' %> value="3">3</option>
+                          <option <%= book.rating === 4 ? 'selected' : '' %> value="3">4</option>
+                          <option <%= book.rating === 5 ? 'selected' : '' %> value="3">5</option>
+                        </select>
+                    <% } else { %>
+                        <select class="form-select" id="inputGroupSelect01" name="rating">
+                            <option selected>Choose...</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="3">4</option>
+                            <option value="3">5</option>
+                          </select>
+                    <% } %>
+                  </div>
+                <div class="input-group mb-3">
+                    <span class="add-form-label input-group-text" id="basic-addon1">Notes</span>
+                    <% if (book.notes) { %>
+                        <textarea name="notes" class="form-control" placeholder="Notes..."><%= book.notes %></textarea>
+                    <% } else { %>
+                        <textarea name="notes" class="form-control" placeholder="Notes..."></textarea>
+                    <% } %>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success">Save Changes</button>
+        </form>
+          
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleNotes();
+        });
+
+        function toggleNotes() {
+            const haveRead = document.getElementById('have-read').checked;
+            const addNotesDiv = document.getElementById('add-notes');
+            addNotesDiv.style.display = haveRead ? 'block' : 'none';
+        }
+    </script>
+
+    <%- include('partials/footer.ejs') %>
