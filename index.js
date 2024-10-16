@@ -133,7 +133,6 @@ app.post("/search", async (req, res) => {
     console.log('User Input: ' + input);
     const searchURL = "https://openlibrary.org/search.json?q=" + input
     try {
-        console.log('here');
         const response = await axios.get(searchURL);
         console.log('Response: ' + response.data);
         res.sendStatus(200);
@@ -184,7 +183,6 @@ app.get("/edit/:id", async (req, res) => {
             [bookId]
         );
         const book = result.rows[0];
-        console.log(book);
         res.render("editbook.ejs", { book, formatPostgresDate });
 
     } catch (error) {
@@ -194,8 +192,50 @@ app.get("/edit/:id", async (req, res) => {
 });
 
 app.post("/edit/:id", async (req, res) => {
-    console.log(req.body);
-})
+    const bookId = parseInt(req.params.id);
+
+    const { title, author, isbn, date, rating, notes } = req.body;
+    const status = req.body['read-status'];
+
+    try {
+        if (status === 'yes') {
+            const result = await db.query(
+                `UPDATE book_notes
+                SET title = $1, author = $2, isbn = $3, status = $4, read_date = $5, rating = $6, notes = $7
+                WHERE id = $8`,
+                [title, author, isbn, true, date, rating, notes, bookId]
+            )
+            res.redirect("/view-notes/" + bookId);
+        } else if (status === 'no') {
+            const result = await db.query(
+                `UPDATE book_notes
+                SET title = $1, author = $2, isbn = $3, status = $4, read_date = $5, rating = $6, notes = $7
+                WHERE id = $8`,
+                [title, author, isbn, false, null, null, null, bookId]
+            )
+            res.redirect("/view-notes/" + bookId);
+        }
+    } catch (error) {
+        console.error(error.message);
+        res.redirect("/edit/" + bookId);
+    }
+});
+
+app.get("/delete/:id", (req, res) => {
+    const bookId = parseInt(req.params.id);
+
+    try {
+        const result = db.query(
+            `DELETE FROM book_notes
+            WHERE id = $1`,
+            [bookId]
+        )
+        res.redirect("/");
+    } catch (error) {
+        console.error(error.message);
+        res.redirect("/view-notes/" + bookId);
+    }
+});
 
 
 app.listen(port, () => {

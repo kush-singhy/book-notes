@@ -1,6 +1,6 @@
 <%- include('partials/header.ejs') %>
 
-<div class="container">
+<div class="container small-container">
     <div class="notes-header">
         <img src="../assets/gradient.jpg" class="notes-img" alt="Book Cover">
         <span>
@@ -33,9 +33,31 @@
     </div>
     
     <div class="notes-buttons">
-        <a href="/edit/<%= book.id %>" class="btn add-book-btn">Edit</a>
-        <a href="/delete" class="btn add-book-btn">Delete</a>
+        <a href="/edit/<%= book.id %>" class="btn edit-btn">Edit</a>
+        <button type="button" class="btn delete-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Delete
+          </button>
     </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Hold your horses!</h1>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to delete this entry?
+            </div>
+            <div class="modal-footer">
+                <a href="/delete/<%= book.id %>" class="btn delete-btn">Delete</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
 </div>
 
+<script>
+
+</script>
 <%- include('partials/footer.ejs') %>

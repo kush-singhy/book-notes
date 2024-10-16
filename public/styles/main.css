@@ -11,7 +11,6 @@ body {
     width: 90%;
     max-width: 1200px;
     padding: 10px 0;
-    /* border-bottom: 1px solid #ccc; */
     color: black;
     font-family: 'Josefin Sans', sans-serif;
     display: flex;
@@ -20,7 +19,7 @@ body {
 
 .header-content {
     width: 100%;
-    background-color: #B7E0FF99;
+    background-color: #B7E0FF77;
     display: flex;
     justify-content:flex-start;
     align-items: center;
@@ -101,6 +100,7 @@ body {
     color: white;
     background-color: #3498db;
 }
+
 .add-book-btn:hover {
     color: white;
     background-color: #5babe0;
@@ -187,6 +187,10 @@ body {
     display: none;
 }
 
+.notes-input {
+    height: 300px;
+}
+
 .read-switch {
     margin-bottom: 18px;
 }
@@ -195,8 +199,7 @@ body {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
-    border-bottom: 2px solid #e0e0e0;
-    padding-bottom: 15px;
+    /* border-bottom: 2px solid #e0e0e0; */
 }
 
 .notes-img {
@@ -225,12 +228,35 @@ body {
 
 .notes-info p {
     margin: 10px 0;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: #444;
 }
 
 .notes-body {
-    font-size: 1.1rem;
+    margin-bottom: 30px;
+}
+
+.notes-body p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+}
+
+.edit-btn {
+    color: white;
+    background-color: grey;
+}
+.edit-btn:hover {
+    color: white;
+    background-color: rgb(107, 106, 106);
+}
+
+.delete-btn {
+    background-color: red;
+    color: white;
+}
+.delete-btn:hover {
+    background-color: rgb(204, 1, 1);
+    color: white;
 }
 
 @media (max-width: 1200px) {
