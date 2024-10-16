@@ -1,6 +1,6 @@
 CREATE TABLE book_notes (
 	id SERIAL PRIMARY KEY,
-    title TEXT,
+    title TEXT UNIQUE,
     author TEXT,
     isbn TEXT,
 	status BOOLEAN,
