@@ -3,7 +3,6 @@ import bodyParser from "body-parser";
 import pg from "pg";
 import axios from "axios";
 import https from 'https';
-import { stat } from "fs";
 
 const app = express();
 const port = 3000;
