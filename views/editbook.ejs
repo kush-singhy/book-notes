@@ -4,24 +4,26 @@
         <h2>Edit Book</h2>
     
         <form action="/edit/<%= book.id %>" method="post">
-            <div class="input-group mb-3">
-                <span class="add-form-label add-form-label input-group-text" id="basic-addon1">Title</span>
-                <input type="text" name="title" class="form-control" placeholder="Title..." value="<%= book.title %>" required>
-            </div>
-            <div class="input-group mb-3">
-                <span class="add-form-label input-group-text" id="basic-addon1">Author</span>
-                <input type="text" name="author" class="form-control" placeholder="Author..." value="<%= book.author %>" required>
-            </div>
-            <div class="input-group mb-3">
-                <span class="add-form-label input-group-text" id="basic-addon1">ISBN</span>
-                <input type="text" name="isbn" class="form-control" placeholder="ISBN..." value="<%= book.isbn %>" required>
-            </div>
-            <div class="read-switch">
-                <input type="radio" class="btn-check" name="read-status" id="have-read" value="yes" autocomplete="off" onclick="toggleNotes()" <%= book.status === true ? 'checked' : '' %>>
-                <label class="btn" for="have-read">Have Read</label>
-                
-                <input type="radio" class="btn-check" name="read-status" id="have-not-read" value="no" autocomplete="off" onclick="toggleNotes()" <%= book.status === false ? 'checked' : '' %>>
-                <label class="btn" for="have-not-read">Want to Read</label>
+            <div class="add-info">
+                <div class="input-group mb-3">
+                    <span class="add-form-label add-form-label input-group-text" id="basic-addon1">Title</span>
+                    <input type="text" name="title" class="form-control" placeholder="Title..." value="<%= book.title %>" required>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="add-form-label input-group-text" id="basic-addon1">Author</span>
+                    <input type="text" name="author" class="form-control" placeholder="Author..." value="<%= book.author %>" required>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="add-form-label input-group-text" id="basic-addon1">ISBN</span>
+                    <input type="text" name="isbn" class="form-control" placeholder="ISBN..." value="<%= book.isbn %>" required>
+                </div>
+                <div class="read-switch">
+                    <input type="radio" class="btn-check" name="read-status" id="have-read" value="yes" autocomplete="off" onclick="toggleNotes()" <%= book.status === true ? 'checked' : '' %>>
+                    <label class="btn" for="have-read">Have Read</label>
+                    
+                    <input type="radio" class="btn-check" name="read-status" id="have-not-read" value="no" autocomplete="off" onclick="toggleNotes()" <%= book.status === false ? 'checked' : '' %>>
+                    <label class="btn" for="have-not-read">Want to Read</label>
+                </div>
             </div>
                 
             <div id="add-notes">
@@ -57,11 +59,10 @@
                     <% } %>
                   </div>
                 <div class="input-group mb-3">
-                    <span class="add-form-label input-group-text" id="basic-addon1">Notes</span>
                     <% if (book.notes) { %>
-                        <textarea name="notes" class="form-control" placeholder="Notes..."><%= book.notes %></textarea>
+                        <textarea name="notes" class="form-control notes-input" placeholder="Notes..."><%= book.notes %></textarea>
                     <% } else { %>
-                        <textarea name="notes" class="form-control" placeholder="Notes..."></textarea>
+                        <textarea name="notes" class="form-control notes-input" placeholder="Notes..."></textarea>
                     <% } %>
                 </div>
             </div>

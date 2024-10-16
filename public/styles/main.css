@@ -224,23 +224,57 @@ body {
     margin-left: auto;
 }
 
-.edit-btn {
-    color: white;
-    background-color: grey;
+.icon-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    border: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 4px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.edit-btn:hover {
-    color: white;
-    background-color: rgb(107, 106, 106);
+
+.icon-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 5px;
+}
+
+.edit-btn {
+    color: #333;
+    background-color: lightblue;
 }
 
 .delete-btn {
-    background-color: red;
-    color: white;
+    color: #333;
+    background-color: lightsalmon;
 }
-.delete-btn:hover {
-    background-color: rgb(204, 1, 1);
-    color: white;
+
+.cancel-btn {
+    background-color: lightgray;
 }
+
+.modal-btn {
+    width: 70px;
+    height: 35px;
+    display: flex;
+    border: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.modal-btn:hover {
+
+    transform: translateY(-2px);
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 5px;
+}
+
 
 .notes-img {
     width: 150px;
