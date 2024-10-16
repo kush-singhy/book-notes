@@ -2,7 +2,7 @@
 
 <div class="container small-container">
     <div class="notes-header">
-        <img src="../assets/gradient.jpg" class="notes-img" alt="Book Cover">
+        <img src="<%= book.cover %>" class="notes-img" alt="Book Cover">
         <span>
             <h1><%= book.title %></h1>
             <h5>By <%= book.author %></h5>
@@ -28,7 +28,6 @@
     </div>
     
     <div class="notes-info">
-        <!-- <p>ISBN: <%= book.isbn %></p> -->
         
         <% if (book.read_date) { %>
             <p class="book-card-text">Read: <%= formatPostgresDate(book.read_date) %></p>

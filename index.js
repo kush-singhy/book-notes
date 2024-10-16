@@ -38,6 +38,25 @@ function formatPostgresDate(pgDate) {
     return `${day} ${month} ${year}`;
 } 
 
+const coverCache = new Map();
+
+async function fetchBookCover(book) {
+    if (coverCache.has(book.isbn)) {
+        book.cover = coverCache.get(book.isbn);
+    } else {
+        try {
+            const response = await axios.get('https://bookcover.longitood.com/bookcover/' + book.isbn);
+            const coverUrl = response.data.url;
+            coverCache.set(book.isbn, coverUrl);
+            book.cover = coverUrl;
+        } catch (error) {
+            console.error(`Error fetching cover for ISBN ${book.isbn}:`, error);
+            book.cover = './assets/gradient.jpg'; 
+        }
+    }
+    return book;
+}
+
 app.get("/", (req, res) => {
     res.redirect("/latest")
 });
@@ -52,6 +71,7 @@ app.get("/latest", async (req, res) => {
         );
         const books = result.rows;
         const sort = 'date';
+        await Promise.all(books.map(fetchBookCover));
 
         res.render("index.ejs", { books, sort, formatPostgresDate });
         
@@ -71,6 +91,7 @@ app.get("/highest-rating", async (req, res) => {
         );
         const books = result.rows;
         const sort = 'rating';
+        await Promise.all(books.map(fetchBookCover));
 
         res.render("index.ejs", { books, sort, formatPostgresDate });
         
@@ -90,6 +111,7 @@ app.get("/title", async (req, res) => {
         );
         const books = result.rows;
         const sort = 'title';
+        await Promise.all(books.map(fetchBookCover));
 
         res.render("index.ejs", { books, sort, formatPostgresDate });
         
@@ -107,6 +129,7 @@ app.get("/wishlist", async (req, res) => {
             WHERE status = false`
         );
         const books = result.rows;
+        await Promise.all(books.map(fetchBookCover));
 
         res.render("index.ejs", { books, formatPostgresDate });
         
@@ -126,7 +149,8 @@ app.get("/view-notes/:id", async (req, res) => {
             WHERE id = $1`,
             [bookId]
         );
-        const book = result.rows[0];
+        let book = result.rows[0];
+        book = await fetchBookCover(book);
         res.render("booknotes.ejs", { book, formatPostgresDate });
     } catch (error) {
         console.error("Error: ", error.message);
