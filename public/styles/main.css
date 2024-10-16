@@ -21,9 +21,9 @@ body {
     width: 100%;
     background-color: #B7E0FF77;
     display: flex;
-    justify-content:flex-start;
+    justify-content: flex-start;
     align-items: center;
-    padding: 50px;
+    padding: 40px 50px;
     border-radius: 10px;
 }
 .logo {
@@ -188,6 +188,14 @@ body {
 
 .add-form-label {
     width: 80px;
+}
+
+.add-search {
+    margin: 25px 0 10px 0;
+}
+
+.add-info {
+    margin: 10px 0;
 }
 
 #add-notes {

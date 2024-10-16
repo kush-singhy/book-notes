@@ -2,33 +2,37 @@
 
     <div class="container small-container">
         <h2>Add Book</h2>
-        <form action="/search" method="post">
-            <div class="input-group mb-3">
-                <input type="text" name="book_name" class="form-control" placeholder="Search for book...">
-                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
-            </div>
-        </form>
+        <div class="add-search">
+            <form action="/search" method="post">
+                <div class="input-group mb-3">
+                    <input type="text" name="book_name" class="form-control" placeholder="Search for book...">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
+                </div>
+            </form>
+        </div>
 
         <h5>Or enter details here: </h5>
         <form action="/add" method="post">
-            <div class="input-group mb-3">
-                <span class="add-form-label add-form-label input-group-text" id="basic-addon1">Title</span>
-                <input type="text" name="title" class="form-control" placeholder="Title..." required>
-            </div>
-            <div class="input-group mb-3">
-                <span class="add-form-label input-group-text" id="basic-addon1">Author</span>
-                <input type="text" name="author" class="form-control" placeholder="Author..." required>
-            </div>
-            <div class="input-group mb-3">
-                <span class="add-form-label input-group-text" id="basic-addon1">ISBN</span>
-                <input type="text" name="isbn" class="form-control" placeholder="ISBN..." required>
-            </div>
-            <div class="read-switch">
-                <input type="radio" class="btn-check" name="read-status" id="have-read" value="yes" autocomplete="off" onclick="toggleNotes()">
-                <label class="btn" for="have-read">Have Read</label>
-                
-                <input type="radio" class="btn-check" name="read-status" id="have-not-read" value="no" autocomplete="off" onclick="toggleNotes()" checked>
-                <label class="btn" for="have-not-read">Want to Read</label>
+            <div class="add-info">
+                <div class="input-group mb-3">
+                    <span class="add-form-label add-form-label input-group-text" id="basic-addon1">Title</span>
+                    <input type="text" name="title" class="form-control" placeholder="Title..." required>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="add-form-label input-group-text" id="basic-addon1">Author</span>
+                    <input type="text" name="author" class="form-control" placeholder="Author..." required>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="add-form-label input-group-text" id="basic-addon1">ISBN</span>
+                    <input type="text" name="isbn" class="form-control" placeholder="ISBN..." required>
+                </div>
+                <div class="read-switch">
+                    <input type="radio" class="btn-check" name="read-status" id="have-read" value="yes" autocomplete="off" onclick="toggleNotes()">
+                    <label class="btn" for="have-read">Have Read</label>
+                    
+                    <input type="radio" class="btn-check" name="read-status" id="have-not-read" value="no" autocomplete="off" onclick="toggleNotes()" checked>
+                    <label class="btn" for="have-not-read">Want to Read</label>
+                </div>
             </div>
                 
             <div id="add-notes">
