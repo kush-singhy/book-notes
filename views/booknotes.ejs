@@ -12,6 +12,14 @@
                 <span class="badge rounded-pill to-read-badge">To Read</span>
             <% } %>
         </span>
+        <div class="notes-buttons">
+            <a href="/edit/<%= book.id %>" class="btn edit-btn">
+                Edit
+            </a>
+            <button type="button" class="btn delete-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Delete
+            </button>
+        </div>
     </div>
     
     <div class="notes-info">
@@ -30,13 +38,6 @@
             <h3>My Notes</h1>
             <p class="book-card-text"><%= book.notes %></p>
         <% } %>
-    </div>
-    
-    <div class="notes-buttons">
-        <a href="/edit/<%= book.id %>" class="btn edit-btn">Edit</a>
-        <button type="button" class="btn delete-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Delete
-          </button>
     </div>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

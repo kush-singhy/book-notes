@@ -167,7 +167,7 @@ app.post("/add", async (req, res) => {
                 [title, author, isbn, true, date, rating, notes]
             )
             const bookId = result.rows[0].id;
-            res.redirect("/view-notes" + bookId);
+            res.redirect("/view-notes/" + bookId);
         } else if (status === 'no') {
             const result = await db.query(
                 `INSERT INTO book_notes (title, author, isbn, status)

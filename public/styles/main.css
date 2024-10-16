@@ -55,7 +55,7 @@ body {
     height: 2px;
     bottom: 0;
     left: 0;
-    background-color: #3498db; /* Change color as per your theme */
+    background-color: #3498db; 
     visibility: hidden;
     transform: scaleX(0);
     transition: all 0.3s ease-in-out;
@@ -67,8 +67,8 @@ body {
 }
 
 .nav-links a:hover {
-    color: #3498db; /* Add hover color transition */
-    transform: translateX(5px); /* Slight move on hover */
+    color: #3498db; 
+    transform: translateX(5px); 
 }
 
 .header .title {
@@ -212,9 +212,34 @@ body {
 
 .notes-header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    /* border-bottom: 2px solid #e0e0e0; */
+}
+
+.notes-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.edit-btn {
+    color: white;
+    background-color: grey;
+}
+.edit-btn:hover {
+    color: white;
+    background-color: rgb(107, 106, 106);
+}
+
+.delete-btn {
+    background-color: red;
+    color: white;
+}
+.delete-btn:hover {
+    background-color: rgb(204, 1, 1);
+    color: white;
 }
 
 .notes-img {
@@ -256,27 +281,15 @@ body {
     line-height: 1.5;
 }
 
-.edit-btn {
-    color: white;
-    background-color: grey;
-}
-.edit-btn:hover {
-    color: white;
-    background-color: rgb(107, 106, 106);
-}
 
-.delete-btn {
-    background-color: red;
-    color: white;
-}
-.delete-btn:hover {
-    background-color: rgb(204, 1, 1);
-    color: white;
-}
 
 @media (max-width: 1200px) {
     .container {
         width: 90%;
+    }
+
+    .small-container {
+        max-width: 800px;
     }
 
     .book-grid {
@@ -287,8 +300,11 @@ body {
 @media (max-width: 767px) {
     .container {
         width: 90%;
-        align-items: center;
     }
+
+    .small-container {
+        max-width: 700px;
+    } 
 
     .book-grid {
         max-width: 400px;
