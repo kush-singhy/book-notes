@@ -50,8 +50,8 @@ async function fetchBookCover(book) {
             coverCache.set(book.isbn, coverUrl);
             book.cover = coverUrl;
         } catch (error) {
-            console.error(`Error fetching cover for ISBN ${book.isbn}:`, error);
-            book.cover = './assets/gradient.jpg'; 
+            console.error(`Error fetching cover for ISBN ${book.isbn}:`, error.message);
+            book.cover = '/assets/gradient.jpg'; 
         }
     }
     return book;
