@@ -190,7 +190,19 @@ body {
 }
 
 .add-search {
-    margin: 25px 0 10px 0;
+    margin: 25px 0 0 0;
+    position: relative;
+}
+
+.search-results {
+    margin: 0;
+    position: absolute;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 8px;
+    z-index: 1;
+}
+
+.add-form {
+    margin-top: 15px;
 }
 
 .add-info {
@@ -313,7 +325,6 @@ body {
     font-size: 1.2rem;
     line-height: 1.5;
 }
-
 
 
 @media (max-width: 1200px) {

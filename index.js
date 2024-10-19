@@ -10,6 +10,8 @@ const agent = new https.Agent({
     rejectUnauthorized: false
 });
 
+const API_KEY = 'AIzaSyA7-b5tD4JuBvJaufwQoYvB3FkcuB4uCPk';
+
 const db = new pg.Client({
   user: "postgres",
   host: "localhost",
@@ -159,23 +161,44 @@ app.get("/view-notes/:id", async (req, res) => {
     
 });
 
+
+app.post("/add/search", async (req, res) => {
+    const input = req.body.book_name;
+    if (input === '') {
+        res.redirect("/add");
+    } else {
+        console.log('User Input: ' + input);
+        const searchURL = `https://www.googleapis.com/books/v1/volumes?q=${input}&key=${API_KEY}&maxResults=8`;
+        try {
+            const response = await axios.get(searchURL);
+            const results = response.data.items;
+            const filteredResults = results.map((result) => {
+                const title = result.volumeInfo.title || 'NA';
+    
+                const authorList = result.volumeInfo.authors || null;
+                const author = (authorList && authorList.length > 0) ? authorList[0] : 'NA';
+    
+                const industryIdentifiers = result.volumeInfo.industryIdentifiers || null;
+                const isbn13 = (industryIdentifiers) ? industryIdentifiers.find((identifier) => identifier.type === 'ISBN_13') : 'NA';
+    
+                return {title, author, isbn13};
+            });
+            console.log(filteredResults);
+            res.render("addbook.ejs", { input, results: filteredResults });
+        } catch(error) {
+            console.error('Error searching: ', error.message);
+            res.redirect("/add");
+        }
+    }
+});
+
+app.post("/add/result", (req, res) => {
+    console.log(req.body);
+})
+
 app.get("/add", (req, res) => {
     res.render("addbook.ejs");
 });
-
-app.post("/search", async (req, res) => {
-    const input = req.body.book_name;
-    console.log('User Input: ' + input);
-    const searchURL = "https://openlibrary.org/search.json?q=" + input
-    try {
-        const response = await axios.get(searchURL);
-        console.log('Response: ' + response.data);
-        res.sendStatus(200);
-    } catch(error) {
-        console.error(error.message);
-        res.redirect("/add");
-    }
-})
 
 app.post("/add", async (req, res) => {
     const { title, author, isbn, date, rating, notes } = req.body;
