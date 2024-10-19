@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import pg from "pg";
 import axios from "axios";
 import https from 'https';
+import 'dotenv/config';
 
 const app = express();
 const port = 3000;
@@ -10,7 +11,7 @@ const agent = new https.Agent({
     rejectUnauthorized: false
 });
 
-const API_KEY = 'AIzaSyA7-b5tD4JuBvJaufwQoYvB3FkcuB4uCPk';
+const apiKey = process.env.API_KEY;
 
 const db = new pg.Client({
   user: "postgres",
@@ -168,7 +169,7 @@ app.post("/add/search", async (req, res) => {
         res.redirect("/add");
     } else {
         console.log('User Input: ' + input);
-        const searchURL = `https://www.googleapis.com/books/v1/volumes?q=${input}&key=${API_KEY}&maxResults=8`;
+        const searchURL = `https://www.googleapis.com/books/v1/volumes?q=${input}&key=${apiKey}&maxResults=8`;
         try {
             const response = await axios.get(searchURL);
             const results = response.data.items;
