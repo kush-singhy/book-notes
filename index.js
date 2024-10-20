@@ -251,6 +251,7 @@ app.post("/add", async (req, res) => {
                 [title, author, isbn, true, date, rating, notes]
             )
             const bookId = result.rows[0].id;
+            await fetchBooks();
             res.redirect("/view-notes/" + bookId);
         } else if (status === 'no') {
             const result = await db.query(
@@ -260,13 +261,14 @@ app.post("/add", async (req, res) => {
                 [title, author, isbn, false]
             )
             const bookId = result.rows[0].id;
+            await fetchBooks();
             res.redirect("/view-notes/" + bookId);
         }
     } catch (error) {
         console.error(error.message);
         res.redirect("/add");
     }
-        
+
 });
 
 app.get("/edit/:id", async (req, res) => {
@@ -301,6 +303,7 @@ app.post("/edit/:id", async (req, res) => {
                 WHERE id = $8`,
                 [title, author, isbn, true, date, rating, notes, bookId]
             )
+            await fetchBooks();
             res.redirect("/view-notes/" + bookId);
         } else if (status === 'no') {
             const result = await db.query(
@@ -309,6 +312,7 @@ app.post("/edit/:id", async (req, res) => {
                 WHERE id = $8`,
                 [title, author, isbn, false, null, null, null, bookId]
             )
+            await fetchBooks();
             res.redirect("/view-notes/" + bookId);
         }
     } catch (error) {
@@ -317,15 +321,16 @@ app.post("/edit/:id", async (req, res) => {
     }
 });
 
-app.get("/delete/:id", (req, res) => {
+app.get("/delete/:id", async (req, res) => {
     const bookId = parseInt(req.params.id);
 
     try {
-        const result = db.query(
+        const result = await db.query(
             `DELETE FROM book_notes
             WHERE id = $1`,
             [bookId]
         )
+        await fetchBooks();
         res.redirect("/");
     } catch (error) {
         console.error(error.message);
