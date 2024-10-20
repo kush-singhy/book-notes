@@ -49,6 +49,8 @@ You will need to set up a postgresql database. Queries are provided in queries.s
 
 - User login functionality
 
+- Appropriate Error handling
+
 
 ## Authors
 

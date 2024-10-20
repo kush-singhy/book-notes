@@ -10,7 +10,7 @@
                     <% } else { %>
                         <input type="text" name="book_name" class="form-control" placeholder="Search for a book...">
                     <% } %>
-                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">
+                    <button class="btn btn-outline-secondary" type="submit" id="search-btn">
                         Search
                     </button>
                 </div>
@@ -18,7 +18,14 @@
             <% if (locals.results && results.length > 0) { %>
                 <div class="list-group search-results">
                     <% results.forEach(result => { %>
-                        <a href="/" class="list-group-item list-group-item-action" id="<%= result.isbn13 %>"><%= result.title %>, <%= result.author %></a>
+                        
+                        <a href="#" class="single-result list-group-item list-group-item-action" 
+                            data-title="<%= result.title%>"
+                            data-author="<%= result.author%>"
+                            data-isbn="<%= result.isbn%>">
+                            <%= result.title %>, <%= result.author %>
+                        </a>
+                        
                     <% }) %>
                 </div>
             <% } %>  
@@ -83,6 +90,24 @@
             const addNotesDiv = document.getElementById('add-notes');
             addNotesDiv.style.display = haveRead ? 'block' : 'none';
         }
+
+        document.querySelectorAll('.single-result').forEach(item => {
+            item.addEventListener('click', function(event) {
+                event.preventDefault();
+
+                const title = this.getAttribute('data-title');
+                const author = this.getAttribute('data-author');
+                const isbn = this.getAttribute('data-isbn');
+
+                document.querySelector('input[name="title"]').value = title;
+                document.querySelector('input[name="author"]').value = author;
+                document.querySelector('input[name="isbn"]').value = isbn;
+
+                document.querySelector('.search-results').style.display = 'none';
+
+            })
+        })
+
     </script>
 
     <%- include('partials/footer.ejs') %>

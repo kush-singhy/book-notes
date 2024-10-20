@@ -162,10 +162,13 @@ app.get("/view-notes/:id", async (req, res) => {
     
 });
 
+var input = '';
+var searchResults = [];
 
 app.post("/add/search", async (req, res) => {
-    const input = req.body.book_name;
+    input = req.body.book_name;
     if (input === '') {
+        searchResults = [];
         res.redirect("/add");
     } else {
         console.log('User Input: ' + input);
@@ -180,12 +183,13 @@ app.post("/add/search", async (req, res) => {
                 const author = (authorList && authorList.length > 0) ? authorList[0] : 'NA';
     
                 const industryIdentifiers = result.volumeInfo.industryIdentifiers || null;
-                const isbn13 = (industryIdentifiers) ? industryIdentifiers.find((identifier) => identifier.type === 'ISBN_13') : 'NA';
-    
-                return {title, author, isbn13};
+                const isbn13 = (industryIdentifiers) ? industryIdentifiers.find((identifier) => identifier.type === 'ISBN_13') : null;
+                const isbn = (isbn13) ? isbn13.identifier : 'NA';
+
+                return {title, author, isbn};
             });
-            console.log(filteredResults);
-            res.render("addbook.ejs", { input, results: filteredResults });
+            searchResults = filteredResults;
+            res.redirect("/add");
         } catch(error) {
             console.error('Error searching: ', error.message);
             res.redirect("/add");
@@ -193,12 +197,9 @@ app.post("/add/search", async (req, res) => {
     }
 });
 
-app.post("/add/result", (req, res) => {
-    console.log(req.body);
-})
-
 app.get("/add", (req, res) => {
-    res.render("addbook.ejs");
+    console.log(req.body);
+    res.render("addbook.ejs", { input, results: searchResults });
 });
 
 app.post("/add", async (req, res) => {
