@@ -26,6 +26,18 @@ db.connect();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+const coverCache = new Map();
+
+// VARIABLES
+
+var books = [];
+
+var input = '';
+var searchResults = [];
+
+
+// UTILITY FUNCTIONS
+
 function formatPostgresDate(pgDate) {
     const date = new Date(pgDate);
 
@@ -41,7 +53,6 @@ function formatPostgresDate(pgDate) {
     return `${day} ${month} ${year}`;
 } 
 
-const coverCache = new Map();
 
 async function fetchBookCover(book) {
     if (coverCache.has(book.isbn)) {
@@ -60,86 +71,112 @@ async function fetchBookCover(book) {
     return book;
 }
 
-app.get("/", (req, res) => {
-    res.redirect("/latest")
+async function fetchBooks() {
+    try {
+        const result = await db.query(
+            `SELECT *
+            FROM book_notes
+            ORDER BY read_date DESC`
+        );
+        books = result.rows;
+        await Promise.all(books.map(fetchBookCover));
+
+    } catch (error) {
+        console.error('Error fetching books:', error);
+        res.status(500).send('Error fetching books');
+    }
+}
+
+
+// ROUTING
+
+app.get("/", async (req, res) => {
+    const sort = 'date';
+
+    if (books.length === 0) {
+        console.log('Fetching books...');
+        await fetchBooks();
+    } 
+    
+    const filteredBooks = books.filter((book) => book.status === true);
+
+    res.render("index.ejs", { 
+        books: filteredBooks, 
+        sort, 
+        notes: true,
+        formatPostgresDate 
+    });
+});
+
+
+app.get("/wishlist", async (req, res) => {
+    if (books.length === 0) {
+        console.log('Fetching books...');
+        await fetchBooks();
+    }
+
+    const filteredBooks = books.filter((book) => book.status === false);
+    res.render("index.ejs", { 
+        books: filteredBooks, 
+        formatPostgresDate 
+    });
 });
 
 app.get("/latest", async (req, res) => {
-    try {
-        const result = await db.query(
-            `SELECT *
-            FROM book_notes
-            WHERE status = true
-            ORDER BY read_date DESC`
-        );
-        const books = result.rows;
-        const sort = 'date';
-        await Promise.all(books.map(fetchBookCover));
+    const sort = 'date';
 
-        res.render("index.ejs", { books, sort, formatPostgresDate });
-        
-    } catch (error) {
-        console.error('Error fetching books:', error);
-        res.status(500).send('Error fetching books');
-    }
+    if (books.length === 0) {
+        console.log('Fetching books...');
+        await fetchBooks();
+    } 
+    
+    const filteredBooks = books.filter((book) => book.status === true);
+    filteredBooks.sort((a, b) => new Date(b.read_date) - new Date(a.read_date));
+
+    res.render("index.ejs", { 
+        books: filteredBooks, 
+        sort, 
+        notes: true,
+        formatPostgresDate 
+    });
 });
 
 app.get("/highest-rating", async (req, res) => {
-    try {
-        const result = await db.query(
-            `SELECT *
-            FROM book_notes
-            WHERE status = true
-            ORDER BY rating DESC`
-        );
-        const books = result.rows;
-        const sort = 'rating';
-        await Promise.all(books.map(fetchBookCover));
+    const sort = 'rating';
 
-        res.render("index.ejs", { books, sort, formatPostgresDate });
-        
-    } catch (error) {
-        console.error('Error fetching books:', error);
-        res.status(500).send('Error fetching books');
-    }
+    if (books.length === 0) {
+        console.log('Fetching books...');
+        await fetchBooks();
+    } 
+    
+    const filteredBooks = books.filter((book) => book.status === true);
+    filteredBooks.sort((a, b) => b.rating - a.rating);
+
+    res.render("index.ejs", { 
+        books: filteredBooks, 
+        sort, 
+        notes: true,
+        formatPostgresDate 
+    });
 });
 
 app.get("/title", async (req, res) => {
-    try {
-        const result = await db.query(
-            `SELECT *
-            FROM book_notes
-            WHERE status = true
-            ORDER BY title`
-        );
-        const books = result.rows;
-        const sort = 'title';
-        await Promise.all(books.map(fetchBookCover));
+    const sort = 'title';
 
-        res.render("index.ejs", { books, sort, formatPostgresDate });
-        
-    } catch (error) {
-        console.error('Error fetching books:', error);
-        res.status(500).send('Error fetching books');
-    }
-});
+    if (books.length === 0) {
+        console.log('Fetching books...');
+        await fetchBooks();
+    } 
+    
+    const filteredBooks = books.filter((book) => book.status === true);
+    filteredBooks.sort((a, b) => a.title.localeCompare(b.title));
 
-app.get("/wishlist", async (req, res) => {
-    try {
-        const result = await db.query(
-            `SELECT *
-            FROM book_notes
-            WHERE status = false`
-        );
-        const books = result.rows;
-        await Promise.all(books.map(fetchBookCover));
-
-        res.render("index.ejs", { books, formatPostgresDate });
-        
-    } catch (error) {
-        console.error('Error fetching books:', error);
-        res.status(500).send('Error fetching books');
-    }
+    res.render("index.ejs", { 
+        books: filteredBooks, 
+        sort, 
+        notes: true,
+        formatPostgresDate 
+    });
 });
 
 
@@ -162,8 +199,6 @@ app.get("/view-notes/:id", async (req, res) => {
     
 });
 
-var input = '';
-var searchResults = [];
 
 app.post("/add/search", async (req, res) => {
     input = req.body.book_name;
@@ -198,8 +233,9 @@ app.post("/add/search", async (req, res) => {
 });
 
 app.get("/add", (req, res) => {
-    console.log(req.body);
     res.render("addbook.ejs", { input, results: searchResults });
+    input = '';
+    searchResults = [];
 });
 
 app.post("/add", async (req, res) => {

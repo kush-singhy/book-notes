@@ -51,6 +51,8 @@ You will need to set up a postgresql database. Queries are provided in queries.s
 
 - Appropriate Error handling
 
+- Proper text formatting for user input notes
+
 
 ## Authors
 
