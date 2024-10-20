@@ -8,8 +8,8 @@ body {
 }
 
 .header {
-    width: 98%;
-    padding: 10px 0;
+    width: 100%;
+    padding: 10px 10px;
     color: black;
     font-family: 'Josefin Sans', sans-serif;
     display: flex;
